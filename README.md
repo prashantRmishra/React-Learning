@@ -49,3 +49,159 @@ For using bootstrap:
 import bootstrap in ``index.js`` file
 
 ``import '../node_modules/bootstrap/dist/css/bootstrap.css'``
+
+Communication between parent and child component (this.props and this.state)
+
+this.prop 
+--
+    when this.prop is used to pass the value between parent and child. then the data is readonly i.e. child can't change the value only the parent can change the value.
+
+``parent``
+
+```js
+import { Component } from "react";
+import { ProductItem } from "./ProductItem";
+
+class ProductList extends Component{
+    constructor(){
+        super();
+        console.log("ProductList component created")
+    }
+    render(){
+        console.log('render of productlist called')
+        return (
+
+            <div className="panel panel-default border">
+                <div className="panel-heading border">
+                    <h3>Product List</h3>
+                </div>
+                
+                <div className="panel-body border">
+                  <ol>
+                    <ProductItem isHidden={false} item={{id:1,name:"product one"}}></ProductItem>
+                    <ProductItem isHidden={false} item={{id:2,name:"product two"}}></ProductItem>
+                    <ProductItem isHidden = {true} item={{id:3,name:"product three"}}></ProductItem>
+                  </ol>
+                </div>
+            </div>
+        );
+    }
+}
+export default ProductList;
+```
+
+``child``
+
+```js
+import { Component } from "react";
+import  PropTypes  from "prop-types"; // Prototypes are used for validation
+export class ProductItem extends Component{
+    constructor(){
+        super();
+    }
+    render(){
+        /* state should not be hardcoded in the component itself 
+        let it come from outside
+        var elementState = {
+            isHidden: true
+        };*/
+        if(this.props.isHidden){
+            return <h1>Product details are not available</h1>;
+        }
+        return (
+            /* <ol>
+                    <li>Product 1 </li>
+                    <li>Product 2</li>
+                    <li>Product 3</li>
+                </ol>*/          
+              <li>{this.props.item.id}{this.props.item.name}</li> 
+        );
+    }
+}
+ProductItem.prototypes = {
+    item:PropTypes.object.isRequired // item is a 'prop' that is used to store data coming from the parent component to the child component.
+}
+ProductItem.defaultProps={ // default property is used when parent does not give any value then the default value can be used.
+    inStock:true
+}
+```
+
+Remember : **props are always public**
+
+
+this.state
+--
+
+this.state is private to a  component and can be changed by the component .
+this.state can be initialized using this.props.
+**When ever the state of a component changes it re-renders itself**
+
+Consider an example where there is ``CounterComponent`` that shows count value.
+and the parent component  has ``CouterComponent`` selector tag in it.
+Parent also has a button ``add count``. Now, whenever the ``add count`` button is clicked then new count value should be shown by the ``CounterComponent`` 
+
+``CounterComponent`` : show close attention to state and event handeling 
+```js
+import { Component } from "react";
+
+export class CounterComponent extends Component{
+    constructor(props){ // we are using props the initialize the state of this component
+        super(props);
+        this.state ={
+            count :  this.props.count // the property count will keep track of count value as an when
+            // it changes and every time it changes this component will be reredered in the dom.
+        }
+    }
+    render(){
+        return (
+           <div>
+           <button className="btn btn-primary"
+           onClick={this.increment.bind(this)} // this is an event handling method signature in react which is bit
+           // different from normal javascript : It is called synthetic event binding
+           //Synthetic events have consistent properties across different browsers.
+           >Increment</button>
+           <h2>Current count is : {this.state.count}</h2>
+           </div>
+        );
+    }
+    increment(){
+        let currentCount  = this.state.count;
+        currentCount+=1;
+        this.setState({
+            count : currentCount
+        });
+    }
+}
+```
+
+``App.js`` : Parent Component
+```js
+import logo from './logo.svg';
+import './App.css';
+import { Component } from 'react';
+import ProductList from './components/ProductList'
+import { CounterComponent } from './components/CounterComponent';
+
+class App extends Component {
+ render () {
+  return (
+    <div className='container'>
+       <div className='container-fluid'>
+         <div className='panel panel-warning border'>
+           <div className='panel-heading'>
+             <img src={logo} width = '30' height = "30"/>
+             <h2 align ='center' className='text-warning'>React Root Component</h2>
+           </div>
+           <div className='panel-body'>
+            <CounterComponent count={1}/>
+            <CounterComponent count={100}/>
+           </div>
+         </div>
+       </div>
+    </div>
+   );
+ }
+}
+
+export default App;
+```

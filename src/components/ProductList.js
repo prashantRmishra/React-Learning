@@ -17,7 +17,10 @@ class ProductList extends Component{
                 
                 <div className="panel-body border">
                   <ol>
-                  <ProductItem item={{id:1,name:"product one"}}></ProductItem></ol>
+                    <ProductItem isHidden={false} item={{id:1,name:"product one"}}></ProductItem>
+                    <ProductItem isHidden={false} item={{id:2,name:"product two"}}></ProductItem>
+                    <ProductItem isHidden = {true} item={{id:3,name:"product three"}}></ProductItem>
+                  </ol>
                 </div>
             </div>
         );

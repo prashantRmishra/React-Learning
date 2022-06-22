@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
 import ProductList from './components/ProductList'
+import { CounterComponent } from './components/CounterComponent';
 
 class App extends Component {
  render () {
@@ -16,6 +17,8 @@ class App extends Component {
            <div className='panel-body'>
            
             <ProductList/>
+            <CounterComponent count={1}/>
+            <CounterComponent count={100}/>
            </div>
          </div>
        </div>
