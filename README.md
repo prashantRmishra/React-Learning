@@ -51,6 +51,7 @@ import bootstrap in ``index.js`` file
 ``import '../node_modules/bootstrap/dist/css/bootstrap.css'``
 
 Communication between parent and child component (this.props and this.state)
+-
 
 this.prop 
 --

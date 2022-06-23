@@ -1,8 +1,12 @@
 import { Component } from "react";
 import  PropTypes  from "prop-types"; // Prototypes are used for validation
 export class ProductItem extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        this.state = {
+            addNewProduct : this.props.clicked
+        }
+     
     }
     render(){
         /* state should not be hardcoded in the component itself 
@@ -10,6 +14,11 @@ export class ProductItem extends Component{
         var elementState = {
             isHidden: true
         };*/
+        if(this.state.addNewProduct){
+            return (
+                <li>{this.props.id}{this.props.name}</li>
+            );
+        }
         if(this.props.isHidden){
             return <h1>Product details are not available</h1>;
         }
