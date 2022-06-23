@@ -3,6 +3,8 @@ import './App.css';
 import { Component } from 'react';
 import ProductList from './components/ProductList'
 import { CounterComponent } from './components/CounterComponent';
+import { TodoListComponent } from './components/lifeCycleComponents/TodoListComponent';
+import { GetOperation } from './components/ApiComponents/GetOperation';
 
 class App extends Component {
  render () {
@@ -16,9 +18,13 @@ class App extends Component {
            </div>
            <div className='panel-body'>
            
-            <ProductList/>
+          {/*
+          <ProductList/>
             <CounterComponent count={1}/>
             <CounterComponent count={100}/>
+            <TodoListComponent todos={[{id:1,name:"this is first todo"}]}/>
+        */}
+        <GetOperation></GetOperation>
            </div>
          </div>
        </div>

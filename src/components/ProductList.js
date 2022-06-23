@@ -2,59 +2,44 @@ import { Component } from "react";
 import { ProductItem } from "./ProductItem";
 
 class ProductList extends Component{
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
-            addProduct : this.props.addProduct
+           productList:[{id:45,name:'product one'},
+           {id:2,name:'product two'},
+           {id:3,name:'product three'},
+           {id:4,name:'product four'}]
         }
 
     }
     render(){
-
-        if(this.state.addProduct){
+        
             return (
                 <div className="panel panel-default border">
                 <div className="panel-heading border">
                     <h3>new product that are added list</h3>
                 </div>
-                
+            
                 <div className="panel-body border">
                   <ol>
-                {/* <ProductItem isHidden={false} item={{id:1,name:"product one"}}></ProductItem>
-                    <ProductItem isHidden={false} item={{id:2,name:"product two"}}></ProductItem>
-                    <ProductItem isHidden = {true} item={{id:3,name:"product three"}}></ProductItem>*/}
-                    <ProductItem addProduct={false} item={{id:1,name:"product one"}}></ProductItem>
+                  {
+                    this.state.productList.map(product=>{
+                        return <ProductItem isHidden = {false}  item={product} key = {product.id}></ProductItem>
+                    })
+                  }
                   </ol>
+                  <button className="btn btn-primary"
+                  onClick={this.addNewProduct.bind(this)}>Add Product</button>
                 </div>
             </div>
-            );
-        }
-       
-        return (
-
-            <div className="panel panel-default border">
-                <div className="panel-heading border">
-                    <h3>Product List</h3>
-                </div>
-                
-                <div className="panel-body border">
-                  <ol>
-                {/* <ProductItem isHidden={false} item={{id:1,name:"product one"}}></ProductItem>
-                    <ProductItem isHidden={false} item={{id:2,name:"product two"}}></ProductItem>
-                    <ProductItem isHidden = {true} item={{id:3,name:"product three"}}></ProductItem>*/}
-                    <ProductItem  item={{id:1,name:"product one"}}></ProductItem>
-                  </ol>
-                  
-                  <button className="btn btn-success"
-                  onClick={this.addProduct.bind(this)}>Add new Product</button>
-                </div>
-            </div>
+            
         );
     }
-    addProduct(){
-        this.setState = {
-            addProduct: true
-        }
+    addNewProduct(){
+  
+        this.setState({
+            productList: [...this.state.productList,{id:4545,name:"this is a new product added"}]
+        })
     }
 }
 export default ProductList;
